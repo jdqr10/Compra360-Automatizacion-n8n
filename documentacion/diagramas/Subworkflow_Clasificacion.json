@@ -1,0 +1,96 @@
+{
+  "name": "Subworkflow_Normalizar_Solicitud",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger-normalizar",
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "notesInFlow": true,
+      "notes": "Recibe los datos desde el flujo principal"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1c63b26a-db8e-4900-ba08-5488b8a84d51",
+              "name": "solicitud_id",
+              "value": "={{ String($json.body.solicitud_id ?? \"\").trim().toUpperCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "c54f3743-6c98-43ee-a781-047e961214d2",
+              "name": "solicitante",
+              "value": "={{ String($json.body.solicitante ?? \"\").trim().replace(/\\s+/g, \" \").toUpperCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "30146dca-744b-4e82-898f-9117c19cb6e9",
+              "name": "=categoria",
+              "value": "={{ String($json.body.categoria ?? \"\").trim().toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "dbd9737e-0217-4244-b440-8351a89f4dfb",
+              "name": "=valor",
+              "value": "={{ Number($json.body.valor ?? 0) }}",
+              "type": "number"
+            },
+            {
+              "id": "ef81448e-8256-4698-be76-073bf3e0c1ef",
+              "name": "=descripcion",
+              "value": "={{ String($json.body.descripcion ?? \"\").trim().replace(/\\s+/g, \" \") }}",
+              "type": "string"
+            },
+            {
+              "id": "d18c7d56-51f1-4393-b314-8cf3fdb9b040",
+              "name": "centro_costo",
+              "value": "CC-105",
+              "type": "string"
+            },
+            {
+              "id": "a5335cba-015b-4303-8f55-7e42bf36ab97",
+              "name": "fecha_registro",
+              "value": "={{ $json.body.fecha_registro ?? $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        450,
+        300
+      ],
+      "id": "c7e1855b-c041-494e-82f5-46351885c6d9",
+      "name": "Normalizar solicitud"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Normalizar solicitud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "",
+  "meta": {},
+  "tags": []
+}

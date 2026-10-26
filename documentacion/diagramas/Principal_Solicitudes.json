@@ -1,0 +1,722 @@
+{
+  "name": "Compra360 - Control de flujo Semana 4 (MODIFICADO)",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "24160f52-1cd0-4def-b11a-e0e6cce52dd6",
+                    "leftValue": "={{ $json.categoria }}",
+                    "rightValue": "tecnología",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Tecnologia"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6fe72ebb-5a11-4bcf-893b-700ff2cca255",
+                    "leftValue": "={{ $json.categoria }}",
+                    "rightValue": "infraestructura",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Infraestructura"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "15f42ed7-76ba-4f21-9c47-aee234b02d78",
+                    "leftValue": "={{ $json.categoria }}",
+                    "rightValue": "mobiliario",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Mobiliario"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Otras categorías"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        672,
+        288
+      ],
+      "id": "2ff07e95-d892-41bf-94d0-3f362946b23c",
+      "name": "Switch por categoría"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf067a6b-f431-4145-8ea9-335c3c2f1703",
+              "name": "decision",
+              "value": "REQUIERE APROBACIÓN",
+              "type": "string"
+            },
+            {
+              "id": "fb6209f3-786f-4c60-a379-3c8973917f89",
+              "name": "nivel",
+              "value": "Nivel 2 – Jefe de Compras",
+              "type": "string"
+            },
+            {
+              "id": "eda7ae23-ea1b-441b-8e53-047ee4279e91",
+              "name": "motivo",
+              "value": "Compra de tecnología de alto valor",
+              "type": "string"
+            },
+            {
+              "id": "53011227-367a-4c60-b362-6557060102c4",
+              "name": "solicitud",
+              "value": "={{ $('Normalizar solicitud').item.json.solicitud_id }}",
+              "type": "string"
+            },
+            {
+              "id": "a6e9989c-9cb6-499a-813e-70bb299e50b9",
+              "name": "solicitante",
+              "value": "={{ $('Normalizar solicitud').item.json.solicitante }}",
+              "type": "string"
+            },
+            {
+              "id": "2b1d6626-08b8-40b3-befd-58af7d571219",
+              "name": "categoria",
+              "value": "={{ $('Normalizar solicitud').item.json.categoria }}",
+              "type": "string"
+            },
+            {
+              "id": "88d50cf2-fb30-489e-9cc0-851b2d7978fc",
+              "name": "valor",
+              "value": "={{ $('Normalizar solicitud').item.json.valor }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        80
+      ],
+      "id": "7fe724cf-532d-417a-b130-33f9259e8efb",
+      "name": "Aprobación Tecnología"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "32e1afc8-52a6-40a3-986b-edf2163f9357",
+              "name": "decision",
+              "value": "REQUIERE APROBACIÓN",
+              "type": "string"
+            },
+            {
+              "id": "349891d4-7a63-4765-b785-0f4a1c3de816",
+              "name": "nivel",
+              "value": "Nivel 2 – Jefe de Área",
+              "type": "string"
+            },
+            {
+              "id": "9c968fb0-93dc-473d-8456-2327e0409933",
+              "name": "motivo",
+              "value": "Compra de alto valor sin nivel específico",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        672
+      ],
+      "id": "e63e1354-6c22-477f-a163-d88ee24b6403",
+      "name": "Aprobación Otras categorías"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "752ce8cc-9221-46a1-a004-acab25fc5103",
+              "name": "decision",
+              "value": "PROCESO NORMAL",
+              "type": "string"
+            },
+            {
+              "id": "b2540817-904b-4d24-9d5a-8d5ffc76562f",
+              "name": "nivel",
+              "value": "Automático – Analista de Compras",
+              "type": "string"
+            },
+            {
+              "id": "026c82af-9b42-49b6-bfce-bf3d0b917cca",
+              "name": "motivo",
+              "value": "La compra no supera el umbral de aprobación especial",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        880
+      ],
+      "id": "0d61a49f-8233-44b4-af46-546c85bcbdde",
+      "name": "Proceso normal"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "818559d5-6e65-49ec-b19f-ea16e3f4694d",
+              "leftValue": "={{ $json.valor }}",
+              "rightValue": 2000000,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        416,
+        448
+      ],
+      "id": "9aa52574-9195-4e9a-8bcb-65822a4712fb",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "formTitle": "Solicitud de compra",
+        "formDescription": "Complete la información para registrar y clasificar una solicitud de compra.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Número de solicitud"
+            },
+            {
+              "fieldLabel": "Nombre del solicitante"
+            },
+            {
+              "fieldLabel": "Categoria",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Tecnología"
+                  },
+                  {
+                    "option": "Infraestructura"
+                  },
+                  {
+                    "option": "Mobiliario"
+                  },
+                  {
+                    "option": "Otros"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Valor de compra",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Descripción de la compra"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -48,
+        1424
+      ],
+      "id": "7865cffd-9208-4296-a50b-d43f59416306",
+      "name": "Solicitud de compra",
+      "webhookId": "32c54b72-6665-4cbd-a0ca-24dd19f8b097"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "value": "",
+          "mode": "list",
+          "cachedResultName": "Subworkflow_Normalizar_Solicitud"
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "id": "execute-subworkflow-normalizar",
+      "name": "Ejecutar Subworkflow - Normalizar Solicitud",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        192,
+        448
+      ],
+      "notesInFlow": true,
+      "notes": "Llama al subworkflow para normalizar la solicitud"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf067a6b-f431-4145-8ea9-335c3c2f1703",
+              "name": "decision",
+              "value": "REQUIERE APROBACIÓN",
+              "type": "string"
+            },
+            {
+              "id": "fb6209f3-786f-4c60-a379-3c8973917f89",
+              "name": "nivel",
+              "value": "Nivel 2 – Jefe de Compras",
+              "type": "string"
+            },
+            {
+              "id": "eda7ae23-ea1b-441b-8e53-047ee4279e91",
+              "name": "motivo",
+              "value": "Compra de infraestructura de alto valor",
+              "type": "string"
+            },
+            {
+              "id": "53011227-367a-4c60-b362-6557060102c4",
+              "name": "solicitud",
+              "value": "={{ $('Normalizar solicitud').item.json.solicitud_id }}",
+              "type": "string"
+            },
+            {
+              "id": "a6e9989c-9cb6-499a-813e-70bb299e50b9",
+              "name": "solicitante",
+              "value": "={{ $('Normalizar solicitud').item.json.solicitante }}",
+              "type": "string"
+            },
+            {
+              "id": "2b1d6626-08b8-40b3-befd-58af7d571219",
+              "name": "categoria",
+              "value": "={{ $('Normalizar solicitud').item.json.categoria }}",
+              "type": "string"
+            },
+            {
+              "id": "88d50cf2-fb30-489e-9cc0-851b2d7978fc",
+              "name": "valor",
+              "value": "={{ $('Normalizar solicitud').item.json.valor }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1056,
+        272
+      ],
+      "id": "d4f2ee60-fc51-4500-a6c3-9f3e5efff0e7",
+      "name": "Aprobación Infraestructura"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf067a6b-f431-4145-8ea9-335c3c2f1703",
+              "name": "decision",
+              "value": "REQUIERE APROBACIÓN",
+              "type": "string"
+            },
+            {
+              "id": "fb6209f3-786f-4c60-a379-3c8973917f89",
+              "name": "nivel",
+              "value": "Nivel 2 – Jefe de Compras",
+              "type": "string"
+            },
+            {
+              "id": "eda7ae23-ea1b-441b-8e53-047ee4279e91",
+              "name": "motivo",
+              "value": "Compra de mobiliaria de alto valor",
+              "type": "string"
+            },
+            {
+              "id": "53011227-367a-4c60-b362-6557060102c4",
+              "name": "solicitud",
+              "value": "={{ $('Normalizar solicitud').item.json.solicitud_id }}",
+              "type": "string"
+            },
+            {
+              "id": "a6e9989c-9cb6-499a-813e-70bb299e50b9",
+              "name": "solicitante",
+              "value": "={{ $('Normalizar solicitud').item.json.solicitante }}",
+              "type": "string"
+            },
+            {
+              "id": "2b1d6626-08b8-40b3-befd-58af7d571219",
+              "name": "categoria",
+              "value": "={{ $('Normalizar solicitud').item.json.categoria }}",
+              "type": "string"
+            },
+            {
+              "id": "88d50cf2-fb30-489e-9cc0-851b2d7978fc",
+              "name": "valor",
+              "value": "={{ $('Normalizar solicitud').item.json.valor }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        512
+      ],
+      "id": "e9e8204b-f8e0-4721-9397-8bb2303977c2",
+      "name": "Aprobación Mobiliario"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mdvxcszeforishpgdzby.supabase.co/rest/v1/solicitudes_compra",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "sb_publishable_LV_VaL-oZtSF8trkiNhCwA_BRKASBw8"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "solicitud_id",
+              "value": "={{ $(\"Normalizar solicitud\").item.json.solicitud_id }}"
+            },
+            {
+              "name": "solicitante",
+              "value": "={{ $(\"Normalizar solicitud\").item.json.solicitante }}"
+            },
+            {
+              "name": "categoria",
+              "value": "={{ $(\"Normalizar solicitud\").item.json.categoria }}"
+            },
+            {
+              "name": "valor",
+              "value": "={{ $(\"Normalizar solicitud\").item.json.valor }}"
+            },
+            {
+              "name": "descripcion",
+              "value": "={{ $(\"Normalizar solicitud\").item.json.descripcion }}"
+            },
+            {
+              "name": "estado",
+              "value": "Requiere aprobacion"
+            },
+            {
+              "name": "area_aprobadora",
+              "value": "={{ $('Webhook').item.json.body.centro_costo }}"
+            },
+            {
+              "name": "requiere_aprobacion",
+              "value": "true"
+            },
+            {
+              "name": "asunto",
+              "value": "Pruebaaaa asunto"
+            },
+            {
+              "name": "fecha_registro",
+              "value": "={{ $(\"Normalizar solicitud\").item.json.fecha_registro }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1744,
+        496
+      ],
+      "id": "0db53d67-5e84-4680-9a78-cbbdda6bccd6",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "solicitud-compra",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -64,
+        448
+      ],
+      "id": "79ef871c-a809-497f-8189-5ddcf31a69d9",
+      "name": "Webhook",
+      "webhookId": "b3b690e1-1f89-49b6-820b-d0f2c8fac267"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{\n  {\n    recibido: true,\n    mensaje: \"Solicitud recibida y procesada correctamente\",\n    solicitud_id: $(\"Normalizar solicitud\").item.json.solicitud_id\n  }\n}}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2016,
+        496
+      ],
+      "id": "443bc19b-0366-4792-95da-90c13cb3bef8",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Switch por categoría": {
+      "main": [
+        [
+          {
+            "node": "Aprobación Tecnología",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aprobación Infraestructura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aprobación Mobiliario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aprobación Otras categorías",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Switch por categoría",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Proceso normal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solicitud de compra": {
+      "main": [
+        []
+      ]
+    },
+    "Aprobación Mobiliario": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aprobación Infraestructura": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aprobación Otras categorías": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Proceso normal": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aprobación Tecnología": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Ejecutar Subworkflow - Normalizar Solicitud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar Subworkflow - Normalizar Solicitud": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "errorWorkflow": {
+      "value": "",
+      "mode": "list",
+      "cachedResultName": "Manejador_Errores_Compra360"
+    }
+  },
+  "versionId": "9b4df687-25a3-426d-b00b-238861189c7f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "44abbda0b6737e1f6f1d598beece9916da961f5d2caf2e7f2397e6a07c983334"
+  },
+  "id": "EuQmeBiw2GhoAQ4k",
+  "tags": []
+}

@@ -1,0 +1,126 @@
+{
+  "name": "Manejador_Errores_Compra360",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "error-trigger",
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ],
+      "notesInFlow": true,
+      "notes": "Se activa cuando falla una ejecución del workflow asociado"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "string": [
+            {
+              "name": "fecha_hora",
+              "value": "={{$now.toISO8601()}}"
+            },
+            {
+              "name": "workflow",
+              "value": "={{$json[\"workflow\"][\"name\"]}}"
+            },
+            {
+              "name": "executionId",
+              "value": "={{$json[\"execution\"][\"id\"]}}"
+            },
+            {
+              "name": "lastNodeExecuted",
+              "value": "={{$json[\"execution\"][\"lastNodeExecuted\"]}}"
+            },
+            {
+              "name": "errorMessage",
+              "value": "={{$json[\"execution\"][\"error\"][\"message\"]}}"
+            },
+            {
+              "name": "errorStack",
+              "value": "={{$json[\"execution\"][\"error\"][\"stack\"]}}"
+            },
+            {
+              "name": "urlEjecucion",
+              "value": "={{$json[\"execution\"][\"url\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-incidente",
+      "name": "Preparar Registro de Incidente",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ],
+      "notesInFlow": true,
+      "notes": "Arma el registro mínimo del fallo"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "value": "",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "gsheet-guardar",
+      "name": "Guardar en Google Sheets (COMPLETAR)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        650,
+        300
+      ],
+      "notesInFlow": true,
+      "notes": "IMPORTANTE: Selecciona tu documento/hoja y mapea las columnas con los campos del Set"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Preparar Registro de Incidente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Registro de Incidente": {
+      "main": [
+        [
+          {
+            "node": "Guardar en Google Sheets (COMPLETAR)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "",
+  "meta": {},
+  "tags": []
+}
